@@ -1,0 +1,19 @@
+{
+  "name": "faster-agent",
+  "version": "1.0.0",
+  "description": "High-velocity execution and lean surgical verification engine for Google Antigravity.",
+  "author": "mohammed abdullah",
+  "skills": [
+    "skills/faster-agent/SKILL.md"
+  ],
+  "rules": [
+    "rules/faster-agent.md"
+  ],
+  "tags": [
+    "speed",
+    "velocity",
+    "surgical-testing",
+    "anti-loop",
+    "execution"
+  ]
+}
