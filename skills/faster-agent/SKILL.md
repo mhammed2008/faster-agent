@@ -22,6 +22,9 @@ High-velocity execution and lean verification engine for Antigravity AI agents.
 - Guarantee 100% implementation:
   - Every function, method, interface, and handler must be fully written.
   - Zero placeholder comments (`// TODO`, `# pass`, `/* ... */`).
+- Tool Fallback Shield: If specialized tools (`ctx_*`) are not present in the current profile, use native tools (`view_file`, `replace_file_content`, `run_command`, `grep_search`, `list_dir`) immediately with zero hesitation.
+- Anti-Polling Protocol: NEVER poll `manage_task(Action='status')` in loops. Antigravity notifies you reactively; launch background tasks and conclude turn.
+- Infrastructure Circuit Breaker: Max 1 check/restart on Docker or external services. If it fails, report immediately to the user.
 
 ### Step 2: Tiered Lean Verification Protocol
 

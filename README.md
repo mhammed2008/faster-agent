@@ -16,18 +16,24 @@ AI coding agents often fall into common productivity traps:
 
 ## ⚡ Core Principles
 
-### 1. 100% Task Delivery (Zero Stubs)
+### 1. 100% Task Delivery (Zero Stubs & Turn-1 Action)
 - **Direct Action**: Moves straight from intent extraction to code modification without preliminary narration.
 - **Exhaustive Implementation**: Output 100% complete, functional code. No stubs, no omitted logic, and no placeholder comments.
 - **Batched Operations**: Perform multi-file and multi-chunk modifications in single turns.
+- **Tool Fallback Shield**: If specialized/lean tools (`ctx_*`) are absent from the agent profile, immediately use native Antigravity tools (`view_file`, `replace_file_content`, `run_command`, `grep_search`, `list_dir`) with zero hesitation.
 
-### 2. Hybrid Smoke & Surgical Testing (Lean Verification)
-- **Smoke Check First**: Validate syntax, types, and compilation for the modified files only (e.g., `tsc --noEmit`, `py_compile`, `cargo check`).
+### 2. Anti-Polling & Infrastructure Circuit Breakers
+- **Zero Background Polling**: Prohibits looping on `manage_task(Action='status')` or checking background commands/containers repeatedly. Leverages Antigravity's reactive wake-up notifications.
+- **External Service Circuit Breaker**: Allows at most ONE (1) diagnostic or restart attempt on Docker, databases, or dev servers. If failing, halts and reports diagnosis immediately.
+- **Anti-Exploration Shield**: Limits exploration strictly to target files directly mapped to the user's intent.
+
+### 3. Hybrid Smoke & Surgical Testing (Lean Verification)
+- **Smoke Check First**: Validate syntax, types, and compilation for the modified files only (`tsc --noEmit`, `py_compile`, `php -l`, `cargo check`).
 - **Surgical Test Only**: Run exclusively the single test file or targeted test case mapped to the modified code.
-- **No Full-Suite Runs**: Prohibits executing repository-wide test suites (e.g., `npm test`, `pytest`, `cargo test`) unless the user explicitly commands it.
+- **No Full-Suite Runs**: Prohibits executing repository-wide test suites (`npm test`, `pytest`, `cargo test`) unless the user explicitly commands it.
 - **Single-Pass & Circuit Breaker**: If the surgical test passes, stop immediately. If it fails, allow at most **one (1)** targeted fix attempt; if still failing due to environment or external dependencies, report directly to the user instead of looping.
 
-### 3. Lean Context & Token Economy
+### 4. Lean Context & Token Economy
 - **Targeted Slicing**: Inspect exact symbol signatures and line ranges rather than ingesting entire files.
 - **Concise Reporting**: Omit conversational filler, status monologues, and repetition. Present concise actions, diffs, and results.
 
@@ -71,7 +77,7 @@ faster-agent/
 ./scripts/install.sh --global
 ```
 
-This installs the rule directly into `~/.gemini/config/rules/faster-agent.md` and registers the `faster-agent` skill in `~/.gemini/config/skills/faster-agent/`.
+This installs the rule directly into `~/.gemini/config/rules/faster-agent.md`, registers the `faster-agent` skill in `~/.gemini/config/skills/faster-agent/`, **injects the global FasterAgent directive directly into `~/.gemini/GEMINI.md`** (ensuring 100% active coverage across every project in Antigravity), and neutralizes any blocking tool denial hooks in `settings.json`.
 
 ---
 
